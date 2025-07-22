@@ -46,10 +46,10 @@ if "data_storage" not in st.session_state:
 
 # Categories
 CATEGORIES = [
-    "Salary", "Family Support", "Loan Taken", "Debt Payment", "Food", "Miscellaneous Spending",
-    "Cashback", "Subscription", "Petrol", "Recharge", "Other Income", "Festival Expense",
-    "Outing with Friends", "Charity", "Face & Hair Product", "Utility", "Groceries", "Cloths",
-    "Entertainment", "Bank charge", "Travel", "Saving/Investment", "Reversed Income"
+    "Salary", "Cashback", "Other Income", "Family Support", "Loan Taken", "Debt Payment", "Food", "Miscellaneous Spending",
+    "Subscription", "Petrol", "Recharge", "Festival Expense",
+    "Outing with Friends", "Charity", "Body care", "Utility", "Groceries", "Clothes",
+    "Entertainment", "Bank charge", "Travel", "Saving/Investment", "Medical Expenses", "Self Care"
 ]
 
 # Load ML Model
