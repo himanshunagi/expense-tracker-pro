@@ -116,7 +116,7 @@ def get_period_data():
     total_income = 0
     total_expense = 0
     
-    # Bank expenses
+    # Online Transaction expenses (previously Bank expenses)
     for date_str, expenses in st.session_state.data_storage["bank_expenses"].items():
         try:
             expense_date = datetime.strptime(date_str, "%Y-%m-%d")
@@ -126,7 +126,7 @@ def get_period_data():
         except (ValueError, TypeError):
             continue
     
-    # Cash expenses
+    # Cash Transaction expenses (previously Cash expenses)
     for date_str, expenses in st.session_state.data_storage["cash_expenses"].items():
         try:
             expense_date = datetime.strptime(date_str, "%Y-%m-%d")
@@ -418,7 +418,7 @@ st.markdown('<div class="tab-nav">', unsafe_allow_html=True)
 col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
-    if st.button("💳 Bank", key="tab_bank", use_container_width=True):
+    if st.button("💳 Online", key="tab_bank", use_container_width=True):
         set_active_tab("bank")
         st.rerun()
 
@@ -463,7 +463,7 @@ def show_dashboard():
     with col1:
         st.markdown(f"""
         <div class="balance-card">
-            <h3>💳 Bank Account</h3>
+            <h3>💳 Online Transaction</h3>
             <div class="balance-row">
                 <span class="balance-label">Income:</span>
                 <span class="balance-amount income">₹{period_data['bank_income']:,.0f}</span>
@@ -482,7 +482,7 @@ def show_dashboard():
     with col2:
         st.markdown(f"""
         <div class="balance-card">
-            <h3>💵 Cash</h3>
+            <h3>💵 Cash Transaction</h3>
             <div class="balance-row">
                 <span class="balance-label">Income:</span>
                 <span class="balance-amount income">₹{period_data['cash_income']:,.0f}</span>
@@ -561,8 +561,8 @@ def show_dashboard():
             st.rerun()
 
 def show_bank_expenses():
-    """Bank expenses management"""
-    st.markdown("### 💳 Bank Expenses")
+    """Online Transaction expenses management"""
+    st.markdown("### 💳 Online Transaction Expenses")
     
     # Date selection
     selected_date = st.date_input("Select Date", datetime.today())
@@ -585,7 +585,7 @@ def show_bank_expenses():
     
     # Form for adding/editing expenses
     with st.form("bank_expenses_form"):
-        st.markdown("#### Add/Edit Transactions")
+        st.markdown("#### Add/Edit Online Transactions")
         
         new_expenses = []
         for i, exp in enumerate(current_expenses):
@@ -630,15 +630,15 @@ def show_bank_expenses():
                     "category": category
                 })
         
-        if st.form_submit_button("💾 Save Expenses"):
+        if st.form_submit_button("💾 Save Online Transactions"):
             valid_expenses = [exp for exp in new_expenses if exp["description"] and exp["category"]]
             
             if valid_expenses:
                 st.session_state.data_storage["bank_expenses"][date_str] = valid_expenses
-                st.success(f"✅ Saved {len(valid_expenses)} bank expenses!")
+                st.success(f"✅ Saved {len(valid_expenses)} online transactions!")
                 st.rerun()
             else:
-                st.warning("⚠️ Please fill in description and category for all expenses.")
+                st.warning("⚠️ Please fill in description and category for all transactions.")
     
     # Quick actions
     col1, col2 = st.columns(2)
@@ -661,8 +661,8 @@ def show_bank_expenses():
             st.rerun()
 
 def show_cash_expenses():
-    """Cash expenses management"""
-    st.markdown("### 💵 Cash Expenses")
+    """Cash Transaction expenses management"""
+    st.markdown("### 💵 Cash Transaction Expenses")
     
     # Date selection
     selected_date = st.date_input("Select Date", datetime.today(), key="cash_date")
@@ -730,15 +730,15 @@ def show_cash_expenses():
                     "category": category
                 })
         
-        if st.form_submit_button("💾 Save Cash Expenses"):
+        if st.form_submit_button("💾 Save Cash Transactions"):
             valid_expenses = [exp for exp in new_expenses if exp["description"] and exp["category"]]
             
             if valid_expenses:
                 st.session_state.data_storage["cash_expenses"][date_str] = valid_expenses
-                st.success(f"✅ Saved {len(valid_expenses)} cash expenses!")
+                st.success(f"✅ Saved {len(valid_expenses)} cash transactions!")
                 st.rerun()
             else:
-                st.warning("⚠️ Please fill in description and category for all expenses.")
+                st.warning("⚠️ Please fill in description and category for all transactions.")
     
     # Quick actions
     col1, col2 = st.columns(2)
@@ -829,7 +829,7 @@ def show_analytics():
     # Collect data for the period
     period_data = []
     
-    # Bank expenses
+    # Online Transaction expenses (previously Bank expenses)
     for date_str, expenses in st.session_state.data_storage["bank_expenses"].items():
         try:
             expense_date = datetime.strptime(date_str, "%Y-%m-%d")
@@ -841,12 +841,12 @@ def show_analytics():
                             "category": exp["category"],
                             "income": float(exp.get("income", 0)),
                             "expense": float(exp.get("expense", 0)),
-                            "type": "Bank"
+                            "type": "Online Transaction"
                         })
         except (ValueError, TypeError):
             continue
     
-    # Cash expenses
+    # Cash Transaction expenses (previously Cash expenses)
     for date_str, expenses in st.session_state.data_storage["cash_expenses"].items():
         try:
             expense_date = datetime.strptime(date_str, "%Y-%m-%d")
@@ -858,7 +858,7 @@ def show_analytics():
                             "category": exp["category"],
                             "income": float(exp.get("income", 0)),
                             "expense": float(exp.get("expense", 0)),
-                            "type": "Cash"
+                            "type": "Cash Transaction"
                         })
         except (ValueError, TypeError):
             continue
@@ -936,7 +936,7 @@ def show_ai_predictions():
     # Prepare training data from current storage
     training_data = []
     
-    # Bank expenses
+    # Online Transaction expenses (previously Bank expenses)
     for date_str, expenses in st.session_state.data_storage["bank_expenses"].items():
         for exp in expenses:
             if exp.get("category"):
@@ -948,7 +948,7 @@ def show_ai_predictions():
                     "transaction_type": "expense" if exp.get("expense", 0) > 0 else "income"
                 })
     
-    # Cash expenses
+    # Cash Transaction expenses (previously Cash expenses)
     for date_str, expenses in st.session_state.data_storage["cash_expenses"].items():
         for exp in expenses:
             if exp.get("category"):
@@ -972,7 +972,7 @@ def show_ai_predictions():
     
     if st.button("🚀 Generate Predictions"):
         if not training_data:
-            st.warning("⚠️ No data available for predictions. Please add some expenses first.")
+            st.warning("⚠️ No data available for predictions. Please add some transactions first.")
             return
         
         with st.spinner("Training model and generating predictions..."):
