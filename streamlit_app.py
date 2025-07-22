@@ -418,17 +418,17 @@ st.markdown('<div class="tab-nav">', unsafe_allow_html=True)
 col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
-    if st.button("💳 Online", key="tab_bank", use_container_width=True):
+    if st.button("💳 Online Records", key="tab_bank", use_container_width=True):
         set_active_tab("bank")
         st.rerun()
 
 with col2:
-    if st.button("💵 Cash", key="tab_cash", use_container_width=True):
+    if st.button("💵 Cash Records", key="tab_cash", use_container_width=True):
         set_active_tab("cash")
         st.rerun()
 
 with col3:
-    if st.button("🔄 Fixed", key="tab_fixed", use_container_width=True):
+    if st.button("🔄 Fixed Records", key="tab_fixed", use_container_width=True):
         set_active_tab("fixed")
         st.rerun()
 
@@ -463,7 +463,7 @@ def show_dashboard():
     with col1:
         st.markdown(f"""
         <div class="balance-card">
-            <h3>💳 Online Transaction</h3>
+            <h3>💳 Online Records</h3>
             <div class="balance-row">
                 <span class="balance-label">Income:</span>
                 <span class="balance-amount income">₹{period_data['bank_income']:,.0f}</span>
@@ -482,7 +482,7 @@ def show_dashboard():
     with col2:
         st.markdown(f"""
         <div class="balance-card">
-            <h3>💵 Cash Transaction</h3>
+            <h3>💵 Cash Records</h3>
             <div class="balance-row">
                 <span class="balance-label">Income:</span>
                 <span class="balance-amount income">₹{period_data['cash_income']:,.0f}</span>
@@ -562,7 +562,7 @@ def show_dashboard():
 
 def show_bank_expenses():
     """Online Transaction expenses management"""
-    st.markdown("### 💳 Online Transaction Expenses")
+    st.markdown("### 💳 Online Records")
     
     # Date selection
     selected_date = st.date_input("Select Date", datetime.today())
@@ -585,7 +585,7 @@ def show_bank_expenses():
     
     # Form for adding/editing expenses
     with st.form("bank_expenses_form"):
-        st.markdown("#### Add/Edit Online Transactions")
+        st.markdown("#### Add/Edit Online Records")
         
         new_expenses = []
         for i, exp in enumerate(current_expenses):
@@ -630,12 +630,12 @@ def show_bank_expenses():
                     "category": category
                 })
         
-        if st.form_submit_button("💾 Save Online Transactions"):
+        if st.form_submit_button("💾 Save Records"):
             valid_expenses = [exp for exp in new_expenses if exp["description"] and exp["category"]]
             
             if valid_expenses:
                 st.session_state.data_storage["bank_expenses"][date_str] = valid_expenses
-                st.success(f"✅ Saved {len(valid_expenses)} online transactions!")
+                st.success(f"✅ Saved {len(valid_expenses)} online records!")
                 st.rerun()
             else:
                 st.warning("⚠️ Please fill in description and category for all transactions.")
@@ -662,7 +662,7 @@ def show_bank_expenses():
 
 def show_cash_expenses():
     """Cash Transaction expenses management"""
-    st.markdown("### 💵 Cash Transaction Expenses")
+    st.markdown("### 💵 Cash Records")
     
     # Date selection
     selected_date = st.date_input("Select Date", datetime.today(), key="cash_date")
@@ -685,7 +685,7 @@ def show_cash_expenses():
     
     # Form for adding/editing expenses
     with st.form("cash_expenses_form"):
-        st.markdown("#### Add/Edit Cash Transactions")
+        st.markdown("#### Add/Edit Cash Records")
         
         new_expenses = []
         for i, exp in enumerate(current_expenses):
@@ -730,12 +730,12 @@ def show_cash_expenses():
                     "category": category
                 })
         
-        if st.form_submit_button("💾 Save Cash Transactions"):
+        if st.form_submit_button("💾 Save Records"):
             valid_expenses = [exp for exp in new_expenses if exp["description"] and exp["category"]]
             
             if valid_expenses:
                 st.session_state.data_storage["cash_expenses"][date_str] = valid_expenses
-                st.success(f"✅ Saved {len(valid_expenses)} cash transactions!")
+                st.success(f"✅ Saved {len(valid_expenses)} cash records!")
                 st.rerun()
             else:
                 st.warning("⚠️ Please fill in description and category for all transactions.")
@@ -762,11 +762,11 @@ def show_cash_expenses():
 
 def show_fixed_expenses():
     """Fixed expenses management"""
-    st.markdown("### 🔄 Fixed Expenses")
+    st.markdown("### 🔄 Fixed Records")
     
     # Add new fixed expense
     with st.form("fixed_expense_form"):
-        st.markdown("#### Add New Fixed Expense")
+        st.markdown("#### Add monthly recurring incomes or expenses like salary, rent, or subscriptions.")
         
         col1, col2 = st.columns(2)
         
@@ -792,7 +792,7 @@ def show_fixed_expenses():
                 }
                 
                 st.session_state.data_storage["fixed_expenses"].append(new_fixed)
-                st.success("✅ Fixed expense added successfully!")
+                st.success("✅ Fixed records added successfully!")
                 st.rerun()
             else:
                 st.warning("⚠️ Please fill in all required fields.")
